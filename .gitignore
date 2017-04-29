@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
+maqv/
 build/
 develop-eggs/
 dist/
