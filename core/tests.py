@@ -3,9 +3,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpRequest
 from django.http import HttpResponse
 
+
 """
 Classe para efetuar os testes d aaplicacao Core.
-"""
+
 class IndexViewTestCase(TestCase):
 
     #Metodo de setUp, para evitar duplicacao de codigo;
@@ -20,3 +21,4 @@ class IndexViewTestCase(TestCase):
         response = self.client.get(self, url)
         self.assertTemplateUsed(response, 'index.html')
 
+"""
