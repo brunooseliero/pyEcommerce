@@ -58,6 +58,9 @@ docs/_build/
 # PyBuilder
 target/
 
+#Vscode configuration
+.vscode
+
 #Ipython Notebook
 .ipynb_checkpoints
 db.sqlite3
