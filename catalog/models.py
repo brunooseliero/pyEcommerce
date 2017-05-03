@@ -28,19 +28,25 @@ class Category(models.Model):
 
     def __str__(self):
         return str(self.name)
-    
+    #metodo para retornar a url da categoria, passando o identificador unico slug. 
     def get_absolute_url(self):
         return reverse('catalog:category', kwargs={'slug': self.slug})
 
 class Product(models.Model):
-
+    
+    #criando atributo name na modelo que tbm faz parte da tabela do banco.
     name = models.CharField('Nome', max_length=100)
+    #identificador unico.
     slug = models.SlugField('Identificador', max_length=100)
     #atributo da classe categoria e chave estrangeira para o banco.
     category = models.ForeignKey('catalog.Category', verbose_name='Categoria')
+    #descrição do produto. 
     description = models.TextField('Descrição', blank=True)
+    #preço
     price = models.DecimalField('Preço', decimal_places=2, max_digits=10)
+    #momento em que um produto foi criado. 
     created = models.DateTimeField('Criado em', auto_now_add=True)
+    #momento em que um produto foi modificado. 
     modified = models.DateTimeField('Modificado em', auto_now_add=True)
 
     class Meta:
@@ -50,7 +56,7 @@ class Product(models.Model):
 
     def __str__(self):
         return str(self.name)
-
+    #metodo para retornar a url.
     def get_absolute_url(self):
         return reverse('catalog:product', kwargs={'slug': self.slug})
 
