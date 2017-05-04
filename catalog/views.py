@@ -1,50 +1,59 @@
-#coding=utf-8
-from django.shortcuts import render
+# coding=utf-8
+from django.shortcuts import render, get_object_or_404
 
 from .models import Product, Category
+from django.views import generic
 
 
-def product_list(request):
-    #Metodo para retornar uma lista de produtos
-    #Passsa um contexto para pagina, com um objeto chamado product_list,
-    #contendo todos os Produtos do banco de dados.
-    context = {
-        'product_list' : Product.objects.all(),
-    }
-    #função para renderizar o template product_list.html junto com o contexto definido acima.
-    return render(request, 'catalog/product_list.html', context)
-
-def category(request, slug):
+class ProductListView(generic.ListView):
     """
-    Metodo para todos os produtos em cada categoria.
-    Nesse metodo, você tem a criação de um objeto categoria que contem todos os objetos
-    filtrados pelo slug da url(identificador unico que é como se fosse um ID)
+    O Django ja tem implementado uma classe para listaggem de objetos que tem
+    os metodos ORMs implementados.
+    Quando voce tem variaveis de contexto no  HTML, basta colocar o atributo
+    context_object_name que ele vai achar esse contexto no html.
+    No caso abaixo, eu nao preciso colocar, pois a minha variavel de contexto chama 
+    product_list, o Django faz uma tentativa colocando o nome da classe e add um _list,
+    como uma variavel de contexto html, se ele achar ele lista se nao, nao vai mostrar nada.
     """
-    #criação do objeto category já filtrado pelo identificador unico.
-    category = Category.objects.get(slug=slug)
 
-    #criação de um contexto, contendo a categoria atual e a categoria
-    #já filtrada contendo todos os produtos.
-    context = {
-        'current_category' : category,
-        'product_list' : Product.objects.filter(category=category),
+    model = Product
+    template_name = 'catalog/product_list.html'
+    paginate_by = 3
 
-    }
-    #renderização da pagina com o contexto e o template category.html.
-    return render(request, 'catalog/category.html', context)
+
+product_list = ProductListView.as_view()
+
+
+class CategoryListView(generic.ListView):
+
+    template_name = 'catalog/category.html'
+    context_object_name = 'product_list'
+    paginate_by = 3
+
+    def get_queryset(self):
+
+        return Product.objects.filter(category__slug=self.kwargs['slug'])
+    
+    def get_context_data(self, **kwargs):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        context ['current_category'] = get_object_or_404(Category, slug=self.kwargs['slug'])
+        return context
+
+category = CategoryListView.as_view()
+
 
 def product(request, slug):
     """
     Este metodo, é responsavel, para pesquisar apenas uma produto,
     que é pesquisado também pelo slug da URL.
     """
-    #criação do objeto produto, que tem apenas uma posição.
+    # criação do objeto produto, que tem apenas uma posição.
     product = Product.objects.get(slug=slug)
-    #criação de um contexto para acessar os atributos no html.
+    # criação de um contexto para acessar os atributos no html.
     context = {
 
-        'product' : product
+        'product': product
 
     }
-    #renderização do tempalte product.html junto com o contexto.
+    # renderização do tempalte product.html junto com o contexto.
     return render(request, 'catalog/product.html', context)

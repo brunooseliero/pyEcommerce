@@ -7,12 +7,16 @@ from catalog.models import Category
 from django.core.mail import send_mail
 from .forms import ContactForm
 from django.conf import settings
+from django.views.generic import View, TemplateView
 
+# retitando os metodos e omplementando as class based views
 
-def index(request):
-    # Definição da pagina Index
-    # Rretornando a request e o template index.html.
-    return render(request, 'index.html')
+class IndexView(TemplateView):
+
+    #metodo para tornar a classe IndexView 'chamavel'
+    template_name = 'index.html'
+
+index = IndexView.as_view()
 
 
 def contact(request):

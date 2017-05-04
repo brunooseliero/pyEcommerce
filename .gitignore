@@ -61,6 +61,10 @@ target/
 #Vscode configuration
 .vscode
 
+#Notes
+/notebook
+.notebook
+
 #Ipython Notebook
 .ipynb_checkpoints
 db.sqlite3
