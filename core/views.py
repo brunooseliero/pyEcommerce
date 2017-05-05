@@ -7,9 +7,14 @@ from catalog.models import Category
 from django.core.mail import send_mail
 from .forms import ContactForm
 from django.conf import settings
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse_lazy
 
 # retitando os metodos e omplementando as class based views
+
+User = get_user_model()
 
 class IndexView(TemplateView):
 
@@ -42,3 +47,12 @@ def contact(request):
 
     # retirando essa view, pois ela foi para a aplicacao certa de catalogo,
     # onde vai mostrar os produtos.
+
+class RegisterView(CreateView):
+
+    form_class = UserCreationForm
+    template_name = 'register.html'
+    model = User
+    success_url = reverse_lazy('index')
+
+register = RegisterView.as_view()
