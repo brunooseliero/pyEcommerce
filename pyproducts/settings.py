@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'whitenoise',
     #apps
     'core',
+    'accounts',
     'catalog',
 ]
 
@@ -150,6 +151,7 @@ DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
 # auth
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL='index'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 try:
