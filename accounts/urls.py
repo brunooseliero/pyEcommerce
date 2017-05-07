@@ -6,7 +6,9 @@ from . import views
 
 urlpatterns = [
 
-    url(r'^registro/$', views.register, name='register')
+    url(r'^$', views.index, name='index'),
+    url(r'^registro/$', views.register, name='register'),
+    url(r'^alterar-dados/$', views.update_user, name='update_user'),
 
 ]
 
