@@ -152,6 +152,13 @@ DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL='index'
 AUTH_USER_MODEL = 'accounts.User'
+#config para permitir o usuario a entrar na conta com o email ou username
+AUTHENTICATION_BACKENDS = (
+
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.ModelBackend',
+
+)
 
 
 try:
