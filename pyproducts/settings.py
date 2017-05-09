@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'catalog',
+    'checkout',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -152,6 +153,7 @@ DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL='index'
 AUTH_USER_MODEL = 'accounts.User'
+
 #config para permitir o usuario a entrar na conta com o email ou username
 AUTHENTICATION_BACKENDS = (
 
@@ -159,6 +161,18 @@ AUTHENTICATION_BACKENDS = (
     'accounts.backends.ModelBackend',
 
 )
+
+# Messages
+from django.contrib.messages import constants as messages_constants
+MESSAGE_TAGS = {
+
+    messages_constants.DEBUG:'dbug',
+    messages_constants.INFO:'info',
+    messages_constants.SUCCESS:'success',
+    messages_constants.WARNING:'warning',
+    messages_constants.ERROR:'danger',
+
+}
 
 
 try:

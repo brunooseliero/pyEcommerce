@@ -11,6 +11,7 @@ from django.views.generic import View, TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
 
 # retitando os metodos e omplementando as class based views
 
@@ -36,6 +37,8 @@ def contact(request):
         form.send_mail()
         # setando a variavel sucesso para true.
         success = True
+    elif request.method == 'POST':
+        messages.error(request, 'Form invalido!')
     context = {
 
         'form': form,
