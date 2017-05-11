@@ -32,3 +32,5 @@ class CreateCartItemTestCase(TestCase):
         response = self.client.get(self.url)
         cart_item = CartItem.objects.get()
         self.assertEquals(cart_item.quantity, 2)
+
+# escrever os testes relacionados a View de finalizacao de pedido.

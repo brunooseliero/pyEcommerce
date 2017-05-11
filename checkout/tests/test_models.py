@@ -17,3 +17,5 @@ class CartItemTestCase(TestCase):
         cart_item.quantity = 0
         cart_item.save()
         self.assertEquals(CartItem.objects.count(), 2)
+
+# Escrever os testes dos modelso relacionados ao pedido.
