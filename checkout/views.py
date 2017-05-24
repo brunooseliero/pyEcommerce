@@ -1,7 +1,7 @@
 #coding=utf-8
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import RedirectView, TemplateView, ListView
 from .models import CartItem, Order, OrderItem
 from catalog.models import Product
 from django.contrib import messages
@@ -51,7 +51,7 @@ class CartItemView(TemplateView):
         context = super(CartItemView, self).get_context_data(**kwargs)
         context['formset'] = self.get_formset()
         return context
-        
+
     def post(self, request, *args, **kwargs):
         formset = self.get_formset()
         context = self.get_context_data(**kwargs)
@@ -86,11 +86,22 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
             return redirect('checkout:cart_item')
         return super(CheckoutView, self).get(request, *args, **kwargs)
 
+class OrderListView(LoginRequiredMixin, ListView):
+
+    template_name = 'checkout/order_list.html'
+    paginate_by = 10
+    def get_queryset(self):
+        #retorna apenas os pedidos do usuario que estiver logado
+        return Order.objects.filter(user=self.request.user)
+
+
 checkout = CheckoutView.as_view()
 
 cart_item = CartItemView.as_view()
 
 create_cartitem = CreateCartItemView.as_view()
+
+order_list = OrderListView.as_view()
 
 
 
