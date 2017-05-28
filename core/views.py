@@ -31,13 +31,15 @@ def contact(request):
     # digitou.
     # definindo uma variavel de sucesso.
     success = False
-    #Na linha abaixo, sera verificado se o POST esta vazio ou com valores.
+    # Na linha abaixo, sera verificado se o POST esta vazio ou com valores.
     form = ContactForm(request.POST or None)
     if form.is_valid():
+        # se o form for valido, envia e-mail
         form.send_mail()
         # setando a variavel sucesso para true.
         success = True
     elif request.method == 'POST':
+        # se o form estiver errado, vai aparecer uma mensagem de erro.
         messages.error(request, 'Form invalido!')
     context = {
 
@@ -45,7 +47,8 @@ def contact(request):
         'success': success
     }
         # formando o contexto com o form e a mensagem de sucesso do e-mail
-        # enviado ou nao.
+        # semelhante ao req.setAtribute do java.
+         
     return render(request, 'contact.html', context)
 
     # retirando essa view, pois ela foi para a aplicacao certa de catalogo,

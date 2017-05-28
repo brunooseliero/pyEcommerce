@@ -20,11 +20,6 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='E-mail')
     message = forms.CharField(label='Mensagem', widget=forms.Textarea())
 
-    # def __init__(self, *args, **kwargs):
-    #super(ContactForm, self).__init__(*args, **kwargs)
-    #self.fields['name'].widget.attrs['class'] = 'form-control'
-    #self.fields['email'].widget.attrs['class'] = 'form-control'
-    #self.fields['message'].widget.attrs['class'] = 'form-control'
     def send_mail(self):
         # recuperando os valores que foram digitados no form
         # e transformando os mesmos em objetos python com o metodo
