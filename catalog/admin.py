@@ -1,7 +1,10 @@
 from django.contrib import admin
 
 from .models import Product, Category
-
+"""
+Aqui é definido toda a parte do Django admin, para o produto e a categoria,
+que permite fazer operações de CRUD criadas pelo Django através do modulo django.contrib import admin.
+"""
 
 class CategoryAdmin(admin.ModelAdmin):
 
