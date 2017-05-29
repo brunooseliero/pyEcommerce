@@ -15,9 +15,11 @@ class ProductListView(generic.ListView):
     product_list, o Django faz uma tentativa colocando o nome da classe e add um _list,
     como uma variavel de contexto html, se ele achar ele lista se nao, nao vai mostrar nada.
     """
-
+    # identificando a modelo
     model = Product
+    # template html a ser usado
     template_name = 'catalog/product_list.html'
+    # atributo para habilitar a paginação do Django
     paginate_by = 3
 
 
@@ -25,17 +27,21 @@ product_list = ProductListView.as_view()
 
 
 class CategoryListView(generic.ListView):
-
+    # template html a ser usado
     template_name = 'catalog/category.html'
+    # um nome referente a classe para identificar no template
     context_object_name = 'product_list'
+    # atributo para habilitar a paginação do Django
     paginate_by = 3
 
     def get_queryset(self):
-
+        # filtra os produtos, para cada categoria, utilizando o slug ue é um identificador unico
         return Product.objects.filter(category__slug=self.kwargs['slug'])
     
     def get_context_data(self, **kwargs):
         context = super(CategoryListView, self).get_context_data(**kwargs)
+        # definino um contexto com a categoria atual, para aparecer no topo da pagina de uma 
+        # categoria selecionada.
         context ['current_category'] = get_object_or_404(Category, slug=self.kwargs['slug'])
         return context
 
