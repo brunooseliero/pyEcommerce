@@ -8,8 +8,12 @@ from .forms import UserAdminCreationForm, UserAdminForm
 
 
 class UserAdmin(BaseUserAdmin):
-
+    """
+    Configuração do Django ADMIN, usando a minha modelo User.
+    """
+    # add formulário no admin do django
     add_form = UserAdminCreationForm
+    # identificando os campos para o django admin
     add_fieldsets = (
         (None, {
             'fields': ('username', 'email', 'password1', 'password2')
