@@ -2,6 +2,8 @@
 from django.db import models
 from django.conf import settings
 
+from pagseguro import PagSeguro
+
 from catalog.models import Product
 
 
@@ -109,6 +111,38 @@ class Order(models.Model):
         for item in self.items.all():
             products.append(item.product)
         return products
+
+    def total(self):
+        aggregate_queryset = self.items.aggregate(
+            total = models.Sum(
+                models.F('price') * models.F('quantity'),
+                output_field=models.DecimalField()
+            )
+        )
+        return aggregate_queryset['total']
+
+    def pagseguro(self):
+        pg = PagSeguro(
+            email=settings.PAGSEGURO_EMAIL, token = settings.PAGSEGURO_TOKEN,
+            config = {'sandbox': settings.PAGSEGURO_SANDBOX}
+        )
+        pg.sender = {
+            'email': self.user.email
+        }
+        pg.reference_prefix = None
+        pg.shipping = None
+        pg.reference = self.pk
+
+        for item in self.items.all():
+            pg.items.append(
+                {
+                    'id': item.product.pk,
+                    'description': item.product.name,
+                    'quantity': item.quantity,
+                    'amount': '%.2f' % item.price
+                }
+            )
+        return pg
 
 
 class OrderItem(models.Model):

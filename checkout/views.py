@@ -1,8 +1,9 @@
 #coding=utf-8
 from django.shortcuts import get_object_or_404, redirect
 
-from django.views.generic import RedirectView, TemplateView, ListView
+from django.views.generic import RedirectView, TemplateView, ListView, DetailView
 from .models import CartItem, Order, OrderItem
+from pagseguro import PagSeguro
 from catalog.models import Product
 from django.contrib import messages
 from django.forms import modelformset_factory
@@ -84,8 +85,11 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
             # excecao para se nao tiver nehum item no carrinho de compras
             messages.info(request, 'Não há itens no carrinho de compras')
             return redirect('checkout:cart_item')
-        return super(CheckoutView, self).get(request, *args, **kwargs)
+        response =  super(CheckoutView, self).get(request, *args, **kwargs)
+        response.context_data['order'] = order
+        return response
 
+##View para listagem de pedidos dos usuarios
 class OrderListView(LoginRequiredMixin, ListView):
 
     template_name = 'checkout/order_list.html'
@@ -93,6 +97,31 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         #retorna apenas os pedidos do usuario que estiver logado
         return Order.objects.filter(user=self.request.user)
+
+##criacao de uma view para detalhamento dos pedidos
+class OrderDetailView(LoginRequiredMixin, DetailView):
+
+    template_name = 'checkout/order_detail.html'
+    
+    ## filtro para que o usuario nao consiga acessar pedidos que nao sao dele
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+class PagSeguroView(LoginRequiredMixin, RedirectView):
+
+    def get_redirect_url(self,*args,**kwargs):
+        order_pk = self.kwargs.get('pk')
+        order = get_object_or_404(
+            Order.objects.filter(user=self.request.user), pk=order_pk
+        )
+
+        pg = order.pagseguro()
+        pg.redirect_url = self.request.build_absolute_uri(
+            reverse('checkout:order_detail', args=[order.pk])
+        )
+
+        response = pg.checkout()
+        return response.payment_url
 
 
 checkout = CheckoutView.as_view()
@@ -102,6 +131,10 @@ cart_item = CartItemView.as_view()
 create_cartitem = CreateCartItemView.as_view()
 
 order_list = OrderListView.as_view()
+
+order_detail = OrderDetailView.as_view()
+
+pagseguro_view = PagSeguroView.as_view()
 
 
 

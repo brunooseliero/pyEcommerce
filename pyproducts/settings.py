@@ -176,6 +176,10 @@ MESSAGE_TAGS = {
 
 }
 
+PAGSEGURO_TOKEN = '97BE5DFF15394E8C85F7F4832E4199AC'
+PAGSEGURO_EMAIL = 'brunooseliero@gmail.com'
+PAGSEGURO_SANDBOX = True
+
 
 try:
     from .local_settings import *
