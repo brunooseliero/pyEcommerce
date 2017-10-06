@@ -121,6 +121,13 @@ class Order(models.Model):
         )
         return aggregate_queryset['total']
 
+    def pagseguro_update_status(self,status):
+        if status =='3':
+            self.status = 1
+        elif status =='7':
+            self.status = 2
+        self.save()
+
     def pagseguro(self):
         pg = PagSeguro(
             email=settings.PAGSEGURO_EMAIL, token = settings.PAGSEGURO_TOKEN,
