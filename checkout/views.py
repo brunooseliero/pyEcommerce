@@ -1,15 +1,21 @@
 #coding=utf-8
-from django.shortcuts import get_object_or_404, redirect
-
-from django.views.generic import RedirectView, TemplateView, ListView, DetailView
 from pagseguro import PagSeguro
-from .models import CartItem, Order, OrderItem
+
 from django.views.decorators.csrf import csrf_exempt
-from catalog.models import Product
-from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import (
+    RedirectView, TemplateView, ListView, DetailView
+)
 from django.forms import modelformset_factory
-from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.http import HttpResponse
+
+from catalog.models import Product
+
+from .models import CartItem, Order
 
 class CreateCartItemView(RedirectView):
 
