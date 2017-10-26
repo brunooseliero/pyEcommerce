@@ -148,10 +148,12 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 #configuracao para envio de email
 #TODO
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
+DEFAULT_FROM_EMAIL = 'Bruno brunodevpfc@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'brunodevpfc@gmail.com'
+EMAIL_HOST_PASSWORD = 'Gi@mpietro1996'
+EMAIL_PORT = 587
 
 # auth
 LOGIN_URL = 'login'
