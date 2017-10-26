@@ -29,7 +29,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
-ADMINS = [('Bruno', 'brunooseliero@gmail.com')]
+ADMINS = [('Bruno', 'brunodevpfc@gmail.com')]
 
 
 # Application definition
