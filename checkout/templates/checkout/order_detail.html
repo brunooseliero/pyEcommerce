@@ -30,6 +30,7 @@ Pedido #{{ order.pk }}
         <dd>{{ item.price|floatformat:"2" }}</dd>
     </dl>
     {% if order.status == 0  %}
+    <h3>Finalize o pagamento de seu pedido através dos botões abaixo: </h3><br>
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 ">
