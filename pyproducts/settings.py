@@ -151,7 +151,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 #configuracao para envio de email
 
-DEFAULT_FROM_EMAIL = 'Bruno brunodevpfc@gmail.com'
+DEFAULT_FROM_EMAIL = 'brunodevpfc@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'brunodevpfc@gmail.com'
