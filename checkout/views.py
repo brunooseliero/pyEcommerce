@@ -71,12 +71,13 @@ class CartItemView(TemplateView):
 
 
 class CheckoutView(LoginRequiredMixin, TemplateView):
-
+     
     #Informando o template que vai ser usado
     template_name = 'checkout/checkout.html'
 
     # definindo a logica para o Get
     def get(self, request, *args, **kwargs):
+        
         # recuperando o codigo da sessao do usuario
         session_key = request.session.session_key
 
@@ -88,13 +89,17 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
             order = Order.objects.create_order(
                 user=request.user, cart_items=cart_items
             )
+            
             cart_items.delete()
         else:
             # excecao para se nao tiver nehum item no carrinho de compras
             messages.info(request, 'Não há itens no carrinho de compras')
             return redirect('checkout:cart_item')
         response =  super(CheckoutView, self).get(request, *args, **kwargs)
-        response.context_data['order'] = order
+        response.context_data['order'] = order  
+        Orders = Order()      
+        Orders.send_email_status(order)
+        print (order.user.email)
         return response
 
 ##View para listagem de pedidos dos usuarios
@@ -104,7 +109,7 @@ class OrderListView(LoginRequiredMixin, ListView):
     paginate_by = 10
     def get_queryset(self):
         #retorna apenas os pedidos do usuario que estiver logado
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=self.request.user).order_by('-created')
 
 ##criacao de uma view para detalhamento dos pedidos
 class OrderDetailView(LoginRequiredMixin, DetailView):

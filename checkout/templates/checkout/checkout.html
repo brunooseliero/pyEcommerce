@@ -5,6 +5,7 @@ Finalização da Compra
 {% endblock %}
 
 {% block container %}
+
 <ol class="breadcrumb">
   <li><a href="{% url 'index' %}">Início</a></li>
   <li><a href="{% url 'checkout:cart_item' %}">Carrinho de Compras</a></li>
@@ -22,7 +23,7 @@ Finalização da Compra
         <a href="{% url 'checkout:pagseguro_view' order.pk %}" class="btn btn-success"> Pagar com Pagseguro</a>
     </div>
     <div class="col-md-4">
-        <a href="#" class="btn btn-primary"> Pagar com Paypal</a>
+        <a href="#" onclick="naoImplementado()" class="btn btn-primary"> Pagar com Paypal</a>
     </div>
 </div>
 {% endblock %}
