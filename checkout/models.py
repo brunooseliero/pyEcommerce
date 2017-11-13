@@ -2,7 +2,10 @@
 from django.db import models
 from django.conf import settings
 
+
 from pagseguro import PagSeguro
+
+from django.core.mail import send_mail
 
 from catalog.models import Product
 
@@ -139,7 +142,19 @@ class Order(models.Model):
             'email': self.user.email
         }
         pg.reference_prefix = ''
-        pg.shipping = None
+      
+        pg.shipping = {
+            "type": pg.SEDEX,
+            "street": self.user.street,
+            "number": self.user.number,
+            "complement": self.user.complement,
+            "district": self.user.district,
+            "postal_code": self.user.postal_code,
+            "city": self.user.city,
+            "state": self.user.state,
+            "country": self.user.country
+        }
+
         pg.reference = self.pk
 
         for item in self.items.all():
@@ -148,10 +163,21 @@ class Order(models.Model):
                     'id': item.product.pk,
                     'description': item.product.name,
                     'quantity': item.quantity,
-                    'amount': '%.2f' % item.price
                 }
             )
         return pg
+
+    def send_email_status(self, status, order):
+
+        if (status == 1):
+            send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta aguardando pagamento, pague para poder receber o produto',
+            settings.DEFAULT_FROM_EMAIL, self.user.email)
+        elif (status == 1):
+            send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta concluido, aguarde o contato do vendedor para o envio do mesmo.',
+            settings.DEFAULT_FROM_EMAIL, self.user.email)
+        else:
+            send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' foi cancelado, entre em contato para nos explicar o que aconteceu.',
+            settings.DEFAULT_FROM_EMAIL, self.user.email)
 
 
 class OrderItem(models.Model):

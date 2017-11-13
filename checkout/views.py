@@ -124,6 +124,7 @@ class PagSeguroView(LoginRequiredMixin, RedirectView):
         )
 
         pg = order.pagseguro()
+        
         pg.redirect_url = self.request.build_absolute_uri(
             reverse('checkout:order_detail', args=[order.pk])
         )
@@ -151,6 +152,7 @@ def pagseguro_notification(request):
             pass
         else:
             order.pagseguro_update_status(status)
+            order.send_email_status(status, order)
     return HttpResponse('OK')
 
 

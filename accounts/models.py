@@ -18,12 +18,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     name = models.CharField('Nome', max_length=100, blank=True)
     email = models.EmailField('E-mail', unique=True)
+    street = models.CharField('Rua', max_length=100, blank=False)
+    number = models.IntegerField('Número', blank=False)
+    complement = models.CharField('Complemento', max_length=100, blank=False)
+    district = models.CharField('Bairro', max_length=100, blank=False)
+    postal_code = models.CharField('CEP', max_length=8, blank=False)
+    city = models.CharField('Cidade', max_length=100, blank=False)
+    state = models.CharField('Estado', max_length=2, blank=False)
+    country = models.CharField('País', max_length=10, blank=False)
     is_staff = models.BooleanField('Equipe', default=False)
     is_active = models.BooleanField('Ativo', default=True)
     date_joined = models.DateTimeField('Data de Entrada', auto_now_add=True)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'street', 'number', 'complement', 'district', 'postal_code', 'city', 'state', 'country']
 
     objects = UserManager()
 

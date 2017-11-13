@@ -44,6 +44,8 @@ class Product(models.Model):
     description = models.TextField('Descrição', blank=True)
     #preço
     price = models.DecimalField('Preço', decimal_places=2, max_digits=10)
+    #peso
+    weight = models.IntegerField('Peso')
     #momento em que um produto foi criado. 
     created = models.DateTimeField('Criado em', auto_now_add=True)
     #momento em que um produto foi modificado. 

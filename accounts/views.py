@@ -33,7 +33,7 @@ class UpdateUserView(LoginRequiredMixin,UpdateView):
     # tempalte .html a ser usado
     template_name = 'accounts/update_user.html'
     # definição de campos que podem ser editados
-    fields = ['name', 'email']
+    fields = ['name', 'email', 'street', 'number', 'complement', 'district', 'postal_code', 'city', 'state', 'country']
     # url de sucesso, se o registro der certo
     success_url = reverse_lazy('accounts:index')
 
