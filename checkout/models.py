@@ -143,18 +143,8 @@ class Order(models.Model):
         }
         pg.reference_prefix = ''
         
-        pg.shipping = {
-            "type": pg.SEDEX,
-            "street": self.user.street,
-            "number": self.user.number,
-            "complement": self.user.complement,
-            "district": self.user.district,
-            "postal_code": self.user.postal_code,
-            "city": self.user.city,
-            "state": self.user.state,
-            "country": self.user.country
-        }
-       
+        pg.shipping = None
+
         pg.reference = self.pk
 
         for item in self.items.all():
