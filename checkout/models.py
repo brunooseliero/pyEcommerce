@@ -172,13 +172,13 @@ class Order(models.Model):
 
         if (status == 1):
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta aguardando pagamento, pague para poder receber o produto',
-            settings.DEFAULT_FROM_EMAIL, self.user.email)
+            settings.DEFAULT_FROM_EMAIL, [self.user.email])
         elif (status == 1):
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta concluido, aguarde o contato do vendedor para o envio do mesmo.',
-            settings.DEFAULT_FROM_EMAIL, self.user.email)
+            settings.DEFAULT_FROM_EMAIL, [self.user.email])
         else:
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' foi cancelado, entre em contato para nos explicar o que aconteceu.',
-            settings.DEFAULT_FROM_EMAIL, self.user.email)
+            settings.DEFAULT_FROM_EMAIL, [self.user.email])
 
 
 class OrderItem(models.Model):
