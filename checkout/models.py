@@ -142,7 +142,7 @@ class Order(models.Model):
             'email': self.user.email
         }
         pg.reference_prefix = ''
-      
+        
         pg.shipping = {
             "type": pg.SEDEX,
             "street": self.user.street,
@@ -154,7 +154,7 @@ class Order(models.Model):
             "state": self.user.state,
             "country": self.user.country
         }
-
+       
         pg.reference = self.pk
 
         for item in self.items.all():
@@ -163,6 +163,7 @@ class Order(models.Model):
                     'id': item.product.pk,
                     'description': item.product.name,
                     'quantity': item.quantity,
+                    'amount': '%.2f' % item.price
                 }
             )
         return pg
