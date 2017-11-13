@@ -125,7 +125,9 @@ class Order(models.Model):
         return aggregate_queryset['total']
 
     def pagseguro_update_status(self,status):
-        if status =='3':
+        if status =='1':
+            self.status = 0
+        elif status =='3':
             self.status = 1
         elif status =='7':
             self.status = 2
@@ -158,15 +160,15 @@ class Order(models.Model):
             )
         return pg
 
-    def send_email_status(self, status, order):
+    def send_email_status(self, order):
 
-        if (status == 1):
+        if (self.status == 0):
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta aguardando pagamento, pague para poder receber o produto',
             settings.DEFAULT_FROM_EMAIL, [self.user.email])
-        elif (status == 3):
+        elif (self.status == 1):
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' esta concluido, aguarde o contato do vendedor para o envio do mesmo.',
             settings.DEFAULT_FROM_EMAIL, [self.user.email])
-        else:
+        elif (self.status == 2):
             send_mail('Pedido atualizado', 'Ola, o seu pedido' +str(order.pk) +' foi cancelado, entre em contato para nos explicar o que aconteceu.',
             settings.DEFAULT_FROM_EMAIL, [self.user.email])
 

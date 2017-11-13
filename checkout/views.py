@@ -152,7 +152,7 @@ def pagseguro_notification(request):
             pass
         else:
             order.pagseguro_update_status(status)
-            order.send_email_status(status, order)
+            order.send_email_status(order)
     return HttpResponse('OK')
 
 
