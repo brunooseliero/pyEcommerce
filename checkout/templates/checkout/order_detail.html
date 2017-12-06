@@ -29,23 +29,22 @@ Pedido #{{ order.pk }}
         <dt>Preço</dt>
         <dd>{{ item.price|floatformat:"2" }}</dd>
     </dl>
-    {% if order.status == 0  %}
-    <h3>Finalize o pagamento de seu pedido através dos botões abaixo: </h3><br>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 ">
-                <a href="{% url 'checkout:pagseguro_view' order.pk %}" class="btn btn-success"> Pagar com Pagseguro</a>
-            </div>
-            <div class="col-md-6">
-                <a href="#" onclick="naoImplementado()" class="btn btn-primary"> Pagar com Paypal</a>
-            </div>
-        
-        </div>
-        
-    </div>
-    {% else %}
-    {%endif%}
-
 {% endfor %}
+{% if order.status == 0  %}
+<h3>Finalize o pagamento de seu pedido através dos botões abaixo: </h3><br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6 ">
+            <a href="{% url 'checkout:pagseguro_view' order.pk %}" class="btn btn-success"> Pagar com Pagseguro</a>
+        </div>
+        <div class="col-md-6">
+            <a href="#" onclick="naoImplementado()" class="btn btn-primary"> Pagar com Paypal</a>
+        </div>
+    
+    </div>
+    
+</div>
+{% else %}
+{%endif%}
 
 {% endblock %}
